@@ -1,0 +1,60 @@
+class Node:
+    def __init__(self, baon, name):
+        self.baon = baon
+        self.name = name
+
+class BST:
+    def __init__(self):
+        self.root = None
+    
+    def insert(self, baon, name):
+     
+        if self.root is None:
+            self.root = Node(baon, name)
+        else:
+            self._insert_recursive(self.root, baon, name)
+    
+    def _insert_recursive(self, current, baon, name):
+    
+        if baon < current.baon:
+            if current.left is None:
+                current.left = Node(baon, name)
+            else:
+                self._insert_recursive(current.left, baon, name)
+        else:
+            if current.right is None:
+                current.right = Node(baon, name)
+            else:
+                self._insert_recursive(current.right, baon, name)
+
+    def in_order_descending(self, node, result):
+    
+        if node:
+            self.in_order_descending(node.right, result) 
+            result.append((node.name, node.baon))
+            self.in_order_descending(node.left, result)   
+
+    def sort_students_by_baon(self):
+        result = []
+        self.in_order_descending(self.root, result)
+        return result
+
+bst = BST()
+
+students = [
+    (50, "AA"),
+    (100, "BB"),
+    (75, "CC"),
+    (20, "DD"),
+    (90, "EE")
+]
+
+
+for baon, name in students:
+    bst.insert(baon, name)
+
+sorted_students = bst.sort_students_by_baon()
+
+print("Students sorted by baon (Highest to Lowest):")
+for name, baon in sorted_students:
+    print(f"{name}: {baon}")
